@@ -19,7 +19,7 @@ app = dash.Dash(__name__, title="Évolution des nationalités (2015-2024)")
 
 # Définir la mise en page de l'application
 app.layout = html.Div([
-    html.H1("Évolution du nombre d'itérations par nationalité (2015-2024)", 
+    html.H1("Évolution du nombre de dirigeants par nationalité (2015-2024)", 
             style={'textAlign': 'center', 'marginBottom': 30, 'marginTop': 20}),
     
     html.Div([
@@ -116,7 +116,7 @@ def update_selected_graph(selected_nationalites, selected_dataset):
     
     fig = px.line(filtered_df, x='annee', y='iterations', color='nationalite',
                   title=f'{title_prefix} - Évolution des {len(selected_nationalites)} nationalités sélectionnées',
-                  labels={'annee': 'Année', 'iterations': 'Nombre d\'itérations', 'nationalite': 'Nationalité'},
+                  labels={'annee': 'Année', 'iterations': 'Nombre de dirigeants', 'nationalite': 'Nationalité'},
                   markers=True, line_shape='linear')
     
     # Appliquer le style

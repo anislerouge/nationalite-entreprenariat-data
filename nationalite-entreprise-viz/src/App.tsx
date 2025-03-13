@@ -339,7 +339,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1 className="app-title">Évolution du nombre d'itérations par nationalité (2015-2024)</h1>
+      <h1 className="app-title">Évolution du nombre de dirigeants par nationalité (2015-2024)</h1>
       
       <div className="controls">
         <div className="dataset-selector">
