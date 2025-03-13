@@ -38,7 +38,7 @@ Placez vos fichiers CSV dans le dossier `public/data/`:
 Chaque fichier CSV doit contenir les colonnes suivantes:
 - `annee`: L'année (2015-2024)
 - `nationalite`: Le nom de la nationalité
-- `iterations`: Le nombre d'itérations pour cette nationalité cette année-là
+- `nombre_dirigeants`: Le nombre de dirigeants pour cette nationalité cette année-là
 
 ## Démarrage de l'application
 

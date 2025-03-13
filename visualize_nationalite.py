@@ -14,6 +14,7 @@ df_auto['annee'] = df_auto['annee'].astype(str)
 df_societe['annee'] = df_societe['annee'].astype(str)
 df_tout['annee'] = df_tout['annee'].astype(str)
 
+
 # Initialiser l'application Dash
 app = dash.Dash(__name__, title="Évolution des nationalités (2015-2024)")
 
@@ -114,16 +115,16 @@ def update_selected_graph(selected_nationalites, selected_dataset):
     
     filtered_df = df[df['nationalite'].isin(selected_nationalites)]
     
-    fig = px.line(filtered_df, x='annee', y='iterations', color='nationalite',
+    fig = px.line(filtered_df, x='annee', y='nombre_dirigeants', color='nationalite',
                   title=f'{title_prefix} - Évolution des {len(selected_nationalites)} nationalités sélectionnées',
-                  labels={'annee': 'Année', 'iterations': 'Nombre de dirigeants', 'nationalite': 'Nationalité'},
+                  labels={'annee': 'Année', 'nombre_dirigeants': 'Nombre de dirigeants', 'nationalite': 'Nationalité'},
                   markers=True, line_shape='linear')
     
     # Appliquer le style
     fig.update_layout(
         legend_title_text='Nationalités',
         xaxis_title='Année',
-        yaxis_title='Nombre d\'itérations',
+        yaxis_title='Nombre de dirigeants',
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         template='plotly_white',
         height=600,
@@ -132,7 +133,7 @@ def update_selected_graph(selected_nationalites, selected_dataset):
     )
     fig.update_traces(line=dict(width=2.5), opacity=0.85)
     fig.update_traces(
-        hovertemplate='<b>%{fullData.name}</b><br>Année: %{x}<br>Itérations: %{y:,.0f}<extra></extra>'
+        hovertemplate='<b>%{fullData.name}</b><br>Année: %{x}<br>Nombre de dirigeants: %{y:,.0f}<extra></extra>'
     )
     
     return fig
@@ -154,19 +155,19 @@ def update_top_graph(top_n, selected_dataset):
         df = df_tout
         title_prefix = "Tout confondu"
     
-    top_nationalites = df.groupby('nationalite')['iterations'].mean().nlargest(top_n).index.tolist()
+    top_nationalites = df.groupby('nationalite')['nombre_dirigeants'].sum().nlargest(top_n).index.tolist()
     filtered_df = df[df['nationalite'].isin(top_nationalites)]
     
-    fig = px.line(filtered_df, x='annee', y='iterations', color='nationalite',
-                  title=f'{title_prefix} - Top {top_n} des nationalités par nombre d\'itérations',
-                  labels={'annee': 'Année', 'iterations': 'Nombre d\'itérations', 'nationalite': 'Nationalité'},
+    fig = px.line(filtered_df, x='annee', y='nombre_dirigeants', color='nationalite',
+                  title=f'{title_prefix} - Top {top_n} des nationalités par nombre de dirigeants',
+                  labels={'annee': 'Année', 'nombre_dirigeants': 'Nombre de dirigeants', 'nationalite': 'Nationalité'},
                   markers=True, line_shape='linear')
     
     # Appliquer le style
     fig.update_layout(
         legend_title_text='Nationalités',
         xaxis_title='Année',
-        yaxis_title='Nombre d\'itérations',
+        yaxis_title='Nombre de dirigeants',
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
         template='plotly_white',
         height=600,
@@ -175,7 +176,7 @@ def update_top_graph(top_n, selected_dataset):
     )
     fig.update_traces(line=dict(width=3), opacity=1)
     fig.update_traces(
-        hovertemplate='<b>%{fullData.name}</b><br>Année: %{x}<br>Itérations: %{y:,.0f}<extra></extra>'
+        hovertemplate='<b>%{fullData.name}</b><br>Année: %{x}<br>Nombre de dirigeants: %{y:,.0f}<extra></extra>'
     )
     
     return fig

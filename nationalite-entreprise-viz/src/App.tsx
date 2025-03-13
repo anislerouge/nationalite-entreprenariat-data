@@ -8,7 +8,7 @@ import Plot from 'react-plotly.js';
 interface DataRow {
   annee: string;
   nationalite: string;
-  iterations: number;
+  nombre_dirigeants: number;
 }
 
 interface Dataset {
@@ -95,7 +95,7 @@ function App() {
       const headers = headerLine.split(',').map(h => h.replace(/"/g, '').toLowerCase().trim());
       console.log('Parsed headers:', headers);
       
-      if (!headers.includes('annee') || !headers.includes('nationalite') || !headers.includes('iterations')) {
+      if (!headers.includes('annee') || !headers.includes('nationalite') || !headers.includes('nombre_dirigeants')) {
         console.error('CSV is missing required headers:', headers);
         return [];
       }
@@ -114,7 +114,7 @@ function App() {
             const row: Record<string, string | number> = {};
             
             headers.forEach((header, i) => {
-              if (header === 'iterations') {
+              if (header === 'nombre_dirigeants') {
                 const parsedValue = parseInt(values[i], 10);
                 row[header] = isNaN(parsedValue) ? 0 : parsedValue;
               } else {
@@ -125,7 +125,7 @@ function App() {
             return {
               annee: row['annee'] as string || '',
               nationalite: row['nationalite'] as string || '',
-              iterations: row['iterations'] as number || 0
+              nombre_dirigeants: row['nombre_dirigeants'] as number || 0
             };
           } catch (err) {
             console.error(`Error parsing line ${index + 2}:`, line, err);
@@ -164,14 +164,14 @@ function App() {
   const getTopNationalites = (): string[] => {
     const data = getActiveData();
     
-    // Calculate average iterations by nationality
+    // Calculate average nombre_dirigeants by nationality
     const averagesByNationalite: Record<string, number> = {};
     
     data.forEach(row => {
       if (!averagesByNationalite[row.nationalite]) {
         averagesByNationalite[row.nationalite] = 0;
       }
-      averagesByNationalite[row.nationalite] += row.iterations;
+      averagesByNationalite[row.nationalite] += row.nombre_dirigeants;
     });
     
     // Convert to array, calculate averages, and sort
@@ -212,13 +212,13 @@ function App() {
       
       return {
         x: nationaliteData.map(row => row.annee),
-        y: nationaliteData.map(row => row.iterations),
+        y: nationaliteData.map(row => row.nombre_dirigeants),
         type: 'scatter',
         mode: 'lines+markers',
         name: nationalite,
         line: { width: 2.5 },
         opacity: 0.85,
-        hovertemplate: '<b>%{fullData.name}</b><br>Année: %{x}<br>Itérations: %{y:,.0f}<extra></extra>'
+        hovertemplate: '<b>%{fullData.name}</b><br>Année: %{x}<br>Nombre de dirigeants: %{y:,.0f}<extra></extra>'
       };
     });
   };
@@ -246,19 +246,19 @@ function App() {
       const nationaliteData = filteredData.filter(row => row.nationalite === nationalite);
       nationaliteData.sort((a, b) => parseInt(a.annee) - parseInt(b.annee));
       
-      console.log(`${nationalite}: ${nationaliteData.length} data points, iterations:`, 
-                 nationaliteData.map(row => row.iterations));
+      console.log(`${nationalite}: ${nationaliteData.length} data points, nombre de dirigeants:`, 
+                 nationaliteData.map(row => row.nombre_dirigeants));
       
       return {
         x: nationaliteData.map(row => row.annee),
-        y: nationaliteData.map(row => row.iterations),
+        y: nationaliteData.map(row => row.nombre_dirigeants),
         type: 'scatter',
         mode: 'lines+markers',
         name: nationalite,
         line: { width: 3 },
         marker: { size: 8 },
         opacity: 1,
-        hovertemplate: '<b>%{fullData.name}</b><br>Année: %{x}<br>Itérations: %{y:,.0f}<extra></extra>'
+        hovertemplate: '<b>%{fullData.name}</b><br>Année: %{x}<br>Nombre de dirigeants: %{y:,.0f}<extra></extra>'
       };
     });
   };
@@ -278,7 +278,7 @@ function App() {
       tickfont: { color: '#fff' }
     },
     yaxis: {
-      title: { text: 'Nombre d\'itérations', font: { color: '#fff' } },
+      title: { text: 'Nombre de dirigeants', font: { color: '#fff' } },
       showgrid: true,
       gridwidth: 0.5,
       gridcolor: '#444',
