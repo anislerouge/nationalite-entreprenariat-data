@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "fs-display"
+version = "0.1.0"
+description = ""
+authors = ["Anis Lerouge"]
+readme = "README.md"
+packages = [{include = "fs_display"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.2.3"
+matplotlib = "^3.10.1"
+plotly = {extras = ["express"], version = "^6.0.0"}
+dash = "^2.18.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
