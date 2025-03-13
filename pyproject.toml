@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "fs-display"
+name = "nationalite-entreprise-viz"
 version = "0.1.0"
 description = ""
 authors = ["Anis Lerouge"]
 readme = "README.md"
-packages = [{include = "fs_display"}]
+packages = [{include = "nationalite-entreprise-viz"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
